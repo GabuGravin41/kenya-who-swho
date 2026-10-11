@@ -24,8 +24,10 @@ import {
   POWER_BROKERS,
   CROWD_INTELLIGENCE_LOGS,
   ALL_47_COUNTY_LEADERSHIP,
-  CountyLeadershipRecord
+  CountyLeadershipRecord,
+  ALL_ELITE_HANGOUTS
 } from '@kenya-elections/database';
+import { EliteHangoutVenue } from '@kenya-elections/shared-types';
 
 const API_BASE = '/api';
 
@@ -127,6 +129,14 @@ export const api = {
 
   getPowerBrokers: async (): Promise<PowerBroker[]> => {
     return fetchWithFallback<PowerBroker[]>(`${API_BASE}/power-brokers`, POWER_BROKERS);
+  },
+
+  getEliteHangouts: async (category?: string): Promise<EliteHangoutVenue[]> => {
+    const query = category && category !== 'All' ? `?category=${encodeURIComponent(category)}` : '';
+    const fallback = category && category !== 'All'
+      ? ALL_ELITE_HANGOUTS.filter((h: EliteHangoutVenue) => h.category.toLowerCase().includes(category.toLowerCase()))
+      : ALL_ELITE_HANGOUTS;
+    return fetchWithFallback<EliteHangoutVenue[]>(`${API_BASE}/elite-hangouts${query}`, fallback);
   },
 
   getBudgets: async (entityId?: string): Promise<BudgetAllocation[]> => {

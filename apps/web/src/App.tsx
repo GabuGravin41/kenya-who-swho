@@ -19,10 +19,11 @@ import { ConstituencyExplorer } from './components/ConstituencyExplorer';
 import { BureaucracyView } from './components/BureaucracyView';
 import { PowerBrokersView } from './components/PowerBrokersView';
 import { CrowdIntelligenceView } from './components/CrowdIntelligenceView';
+import { EliteHangoutsExplorer } from './components/EliteHangoutsExplorer';
 import { Search } from 'lucide-react';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'crowd_intel'>('politicians');
+  const [activeTab, setActiveTab] = useState<'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'elite_hangouts' | 'crowd_intel'>('politicians');
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   
   // Data State
@@ -236,7 +237,12 @@ export function App() {
           <PowerBrokersView brokers={brokers} />
         )}
 
-        {/* Tab 6: Crowd Intelligence */}
+        {/* Tab 6: Power Hangouts & Access Architecture */}
+        {activeTab === 'elite_hangouts' && (
+          <EliteHangoutsExplorer />
+        )}
+
+        {/* Tab 7: Crowd Intelligence */}
         {activeTab === 'crowd_intel' && (
           <CrowdIntelligenceView logs={crowdLogs} onRefresh={loadData} />
         )}

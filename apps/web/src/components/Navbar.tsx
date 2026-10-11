@@ -7,12 +7,13 @@ import {
   Briefcase, 
   Radio, 
   Wifi, 
-  WifiOff 
+  WifiOff,
+  Lock
 } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'crowd_intel';
-  setActiveTab: (tab: 'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'crowd_intel') => void;
+  activeTab: 'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'elite_hangouts' | 'crowd_intel';
+  setActiveTab: (tab: 'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'elite_hangouts' | 'crowd_intel') => void;
   isOnline: boolean;
 }
 
@@ -23,6 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, isOnlin
     { id: 'counties', label: 'Counties & NG-CDF', icon: MapPin },
     { id: 'bureaucracy', label: 'State Bureaucracy', icon: Building2 },
     { id: 'power_brokers', label: 'Financial Moguls', icon: Briefcase },
+    { id: 'elite_hangouts', label: 'Power Hangouts & Access', icon: Lock },
     { id: 'crowd_intel', label: 'Crowd Intelligence', icon: Radio },
   ] as const;
 

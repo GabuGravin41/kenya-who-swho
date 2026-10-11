@@ -139,6 +139,18 @@ app.get('/api/power-brokers', (req, res) => {
   res.json(inMemoryStore.getPowerBrokers());
 });
 
+// 8.5 Elite Hangouts & Access Architecture (Churches, Golf Clubs, Private Lounges)
+app.get('/api/elite-hangouts', (req, res) => {
+  const { category } = req.query;
+  res.json(inMemoryStore.getEliteHangouts(category as string | undefined));
+});
+
+app.get('/api/elite-hangouts/:id', (req, res) => {
+  const h = inMemoryStore.getEliteHangoutById(req.params.id);
+  if (!h) return res.status(404).json({ error: 'Hangout venue not found' });
+  res.json(h);
+});
+
 // 9. Budgets
 app.get('/api/budgets', (req, res) => {
   const { entityId } = req.query;
@@ -185,6 +197,168 @@ app.post('/api/crowd-logs/:id/vote', (req, res) => {
   const updated = inMemoryStore.voteCrowdLog(req.params.id, type);
   if (!updated) return res.status(404).json({ error: 'Log entry not found' });
   res.json(updated);
+});
+
+// ========================================================
+// 11. COMMERCIAL MONETIZATION & CAMPAIGN PACK API ENDPOINTS
+// ========================================================
+
+const API_PLANS = [
+  {
+    planId: 'free-civic',
+    name: 'Free Civic Tier',
+    priceKes: 0,
+    billingPeriod: 'Free Forever',
+    rateLimitPerMinute: 60,
+    features: [
+      'Basic candidate directory & bio lookup',
+      'Constituency voter counts & general budget figures',
+      'Public crowd intelligence reporting',
+      'Standard community support'
+    ]
+  },
+  {
+    planId: 'pro-intelligence',
+    name: 'Pro Political Intelligence Tier',
+    priceKes: 50000,
+    priceUsd: 390,
+    billingPeriod: 'Monthly',
+    rateLimitPerMinute: 600,
+    features: [
+      'All 290 Constituency MPs with full Hansard delivery scorecards',
+      'All 47 County Leadership Trios (Governors, Senators, Women Reps)',
+      'State Bureaucracy & Constitutional Appointing matrix',
+      'Auditor General expenditure flags & scandal tracking',
+      'Full REST API programmatic access with developer API key'
+    ]
+  },
+  {
+    planId: 'enterprise-war-room',
+    name: 'Enterprise / 2027 Campaign War-Room Pack',
+    priceKes: 250000,
+    priceUsd: 1950,
+    billingPeriod: 'Per Seat / Monthly Campaign Retainer',
+    rateLimitPerMinute: 3000,
+    features: [
+      'Unredacted Opposition Research & Vulnerability Dossiers',
+      'Custom Campaign Briefing PDF Export Packs for all 290 Constituencies',
+      'Power Hangouts & Elite Access Architecture (Churches, Golf Clubs, VIP Bars)',
+      'Financial Moguls & Corporate Beneficial Ownership linkage',
+      'Dedicated intelligence briefings and custom alert webhooks'
+    ]
+  }
+];
+
+const API_KEYS: Record<string, { planId: string; clientName: string; email: string; createdAt: string; queriesUsed: number }> = {
+  'ke_live_demo_pro_key_2027': {
+    planId: 'pro-intelligence',
+    clientName: 'Nairobi Policy Institute',
+    email: 'intel@nairobi-policy.org',
+    createdAt: new Date().toISOString(),
+    queriesUsed: 42
+  }
+};
+
+// GET /api/v1/plans
+app.get('/api/v1/plans', (req, res) => {
+  res.json({
+    currency: 'KES',
+    plans: API_PLANS,
+    paymentMethodsAccepted: ['M-Pesa Daraja API (STK Push)', 'Bank Wire (RTGS / KES / USD)', 'Credit Card (Stripe)']
+  });
+});
+
+// POST /api/v1/auth/generate-key
+app.post('/api/v1/auth/generate-key', (req, res) => {
+  const { clientName, email, planId } = req.body;
+  if (!clientName || !email) {
+    return res.status(400).json({ error: 'clientName and email are required' });
+  }
+
+  const selectedPlan = API_PLANS.find(p => p.planId === planId) || API_PLANS[0];
+  const apiKey = `ke_${selectedPlan.planId}_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 8)}`;
+
+  API_KEYS[apiKey] = {
+    planId: selectedPlan.planId,
+    clientName,
+    email,
+    createdAt: new Date().toISOString(),
+    queriesUsed: 0
+  };
+
+  res.status(201).json({
+    status: 'success',
+    apiKey,
+    plan: selectedPlan,
+    usageEndpoint: '/api/v1/usage',
+    documentationUrl: 'https://github.com/GabuGravin41/kenya-who-swho#api-documentation'
+  });
+});
+
+// GET /api/v1/campaign-packs/:politicianId
+app.get('/api/v1/campaign-packs/:politicianId', (req, res) => {
+  const politician = inMemoryStore.getPoliticianById(req.params.politicianId);
+  if (!politician) return res.status(404).json({ error: 'Politician not found' });
+
+  const scorecard = inMemoryStore.getScorecardByPoliticianId(politician.id);
+  const party = inMemoryStore.getPartyById(politician.partyId);
+  const budgets = politician.representedConstituencyId ? inMemoryStore.getBudgets(politician.representedConstituencyId) : [];
+  const crowdLogs = inMemoryStore.getCrowdLogs({ politicianId: politician.id });
+  const hangouts = inMemoryStore.getEliteHangouts().filter(h => 
+    h.frequentPatrons.some(p => p.politicianId === politician.id || p.name.toLowerCase().includes(politician.name.toLowerCase()))
+  );
+
+  const pack = {
+    classification: 'CONFIDENTIAL // 2027 ELECTORAL CAMPAIGN PACK',
+    generatedAt: new Date().toISOString(),
+    targetSubject: {
+      id: politician.id,
+      name: politician.name,
+      aliases: politician.aliases,
+      currentPosition: politician.currentPosition,
+      representedConstituencyId: politician.representedConstituencyId,
+      representedCountyId: politician.representedCountyId,
+      party: party?.name,
+      coalition: politician.coalition,
+      declaredAssets: politician.declaredAssetsSummary,
+      careerHistory: politician.careerHistory,
+      educationSummary: politician.educationSummary,
+      originStory: politician.originStory,
+      keyAllies: politician.keyAllies,
+      knownRivals: politician.knownRivals
+    },
+    performanceAudit: {
+      deliveryScore: scorecard?.overallDeliveryScore ?? 50,
+      activityTier: scorecard?.activityTier ?? 'Active',
+      hansardSpeechCount: scorecard?.hansardSpeechCount ?? 0,
+      billsSponsored: scorecard?.billsSponsoredCount ?? 0,
+      zeroActivityFlag: scorecard?.zeroActivityFlag ?? false,
+      flagExplanation: scorecard?.flagExplanation,
+      auditorGeneralFlagsCount: scorecard?.auditorGeneralFlagsCount ?? 0,
+      reportedScandals: scorecard?.reportedScandals ?? []
+    },
+    constituencyFinancialOversight: budgets,
+    eliteAccessNetworks: hangouts.map(h => ({
+      venueName: h.name,
+      category: h.category,
+      neighborhood: h.neighborhood,
+      primeMeetingTimes: h.primeMeetingTimes,
+      accessibility: h.accessRequirements.publicAccessibility,
+      entryRules: h.accessRequirements.dressCode
+    })),
+    fieldSurveillanceLogs: crowdLogs,
+    strategicVulnerabilityAssessment: {
+      primaryAttackVectors: [
+        scorecard?.zeroActivityFlag 
+          ? `Capitalize on zero Hansard floor contributions in the 13th Parliament against candidate.`
+          : `Audit committee oversight attendance and public finance voting records.`,
+        `Focus campaign messaging on stalled NG-CDF school and clinic projects in ward borders.`,
+        `Scrutinize party hopping history (${politician.partyHoppingHistory.map(h => h.party).join(' -> ')}) for consistency.`
+      ]
+    }
+  };
+
+  res.json(pack);
 });
 
 app.listen(PORT, () => {

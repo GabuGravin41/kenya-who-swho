@@ -11,8 +11,10 @@ import {
   Plus, 
   Landmark, 
   CheckCircle2, 
-  FileText
+  FileText,
+  Printer
 } from 'lucide-react';
+import { CampaignPackDossier } from './CampaignPackDossier';
 import { api } from '../api';
 
 interface PoliticianModalProps {
@@ -30,6 +32,7 @@ export const PoliticianModal: React.FC<PoliticianModalProps> = ({ politician, on
   const isSilent = scorecard?.zeroActivityFlag || scorecard?.activityTier === 'Ghost/Silent';
 
   const [activeTab, setActiveTab] = useState<'profile' | 'scorecard' | 'lineage' | 'crowd'>('profile');
+  const [isExportView, setIsExportView] = useState(false);
   const [showAddLog, setShowAddLog] = useState(false);
   const [logForm, setLogForm] = useState({
     title: '',
@@ -75,16 +78,29 @@ export const PoliticianModal: React.FC<PoliticianModalProps> = ({ politician, on
             </span>
             <h2 className="text-xl font-bold text-white tracking-tight">{politician.name}</h2>
           </div>
-          <button 
-            onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsExportView(!isExportView)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-semibold hover:bg-amber-500/25 transition-all"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span>{isExportView ? 'Interactive View' : '2027 Campaign Pack (PDF)'}</span>
+            </button>
+            <button 
+              onClick={onClose}
+              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        {/* Hero Section */}
-        <div className="p-6 bg-gradient-to-b from-slate-950/80 to-slate-900 border-b border-slate-800/80">
+        {isExportView ? (
+          <CampaignPackDossier politician={politician} onClose={() => setIsExportView(false)} />
+        ) : (
+          <>
+            {/* Hero Section */}
+            <div className="p-6 bg-gradient-to-b from-slate-950/80 to-slate-900 border-b border-slate-800/80">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
             <img 
               src={politician.photoUrl} 
@@ -532,6 +548,8 @@ export const PoliticianModal: React.FC<PoliticianModalProps> = ({ politician, on
             </div>
           )}
         </div>
+        </>
+      )}
       </div>
     </div>
   );

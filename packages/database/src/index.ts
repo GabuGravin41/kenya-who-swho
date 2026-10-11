@@ -13,7 +13,8 @@ import {
   POWER_BROKERS,
   CROWD_INTELLIGENCE_LOGS,
   ALL_47_COUNTY_LEADERSHIP,
-  CountyLeadershipRecord
+  CountyLeadershipRecord,
+  ALL_ELITE_HANGOUTS
 } from './seedData.js';
 import {
   County,
@@ -26,7 +27,8 @@ import {
   BudgetAllocation,
   PowerBroker,
   CrowdIntelligenceLog,
-  CivicStatsSummary
+  CivicStatsSummary,
+  EliteHangoutVenue
 } from '@kenya-elections/shared-types';
 
 export * from './schema.js';
@@ -54,6 +56,7 @@ class InMemoryStore {
   private brokers: PowerBroker[] = [...POWER_BROKERS];
   private crowdLogs: CrowdIntelligenceLog[] = [...CROWD_INTELLIGENCE_LOGS];
   private countyLeadership: CountyLeadershipRecord[] = [...ALL_47_COUNTY_LEADERSHIP];
+  private hangouts: EliteHangoutVenue[] = [...ALL_ELITE_HANGOUTS];
 
   getCounties() { return this.counties; }
   getCountyById(id: string) { return this.counties.find(c => c.id === id || c.name.toLowerCase() === id.toLowerCase()); }
@@ -159,6 +162,17 @@ class InMemoryStore {
   }
 
   getPowerBrokers() { return this.brokers; }
+
+  getEliteHangouts(category?: string) {
+    if (category && category !== 'All') {
+      return this.hangouts.filter(h => h.category.toLowerCase().includes(category.toLowerCase()));
+    }
+    return this.hangouts;
+  }
+
+  getEliteHangoutById(id: string) {
+    return this.hangouts.find(h => h.id === id);
+  }
 
   getCrowdLogs(filters?: { politicianId?: string; constituencyId?: string; category?: string }) {
     let list = this.crowdLogs;

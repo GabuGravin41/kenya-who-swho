@@ -16,12 +16,16 @@ import { ALL_47_COUNTY_LEADERSHIP } from './countyLeadershipData.js';
 import { ALL_BUREAUCRACY_NODES } from './bureaucracyData.js';
 import { ALL_POWER_BROKERS } from './financialPowerBrokersData.js';
 import { ALL_POLITICIAN_SCORECARDS } from './parliamentScorecardsData.js';
+import { ALL_ELITE_HANGOUTS } from './eliteHangoutsData.js';
+import { ALL_290_PARLIAMENTARY_MPS } from './allMembersOfParliamentData.js';
 
 export * from './constituenciesData.js';
 export * from './countyLeadershipData.js';
 export * from './bureaucracyData.js';
 export * from './financialPowerBrokersData.js';
 export * from './parliamentScorecardsData.js';
+export * from './eliteHangoutsData.js';
+export * from './allMembersOfParliamentData.js';
 
 export const ALL_47_COUNTIES: County[] = [
   { id: '001', code: 1, name: 'Mombasa', formerProvince: 'Coast', capital: 'Mombasa City', population: 1208333, registeredVoters: 580282, annualEquitableShareKes: 8900000000, overviewSummary: 'Coastal economic and maritime hub; home to the Port of Mombasa.' },
@@ -97,7 +101,7 @@ export const POLITICAL_PARTIES: PoliticalParty[] = [
   { id: 'independent', code: 'IND', name: 'Independent Candidate Association', symbol: 'Scales / Independent', colorHex: '#6B7280', partyLeader: 'Non-Partisan', coalition: 'Independent', foundedYear: 2010, headquarters: 'N/A' },
 ];
 
-export const POLITICIANS: Politician[] = [
+const CORE_POLITICIANS: Politician[] = [
   // 1. Executive
   {
     id: 'p-ruto',
@@ -828,6 +832,11 @@ export const POLITICIANS: Politician[] = [
     keyAllies: ['Raila Odinga', 'Edwin Sifuna', 'George Natembeya'],
     knownRivals: ['Johnson Sakaja', 'Nelson Havi']
   }
+];
+
+export const POLITICIANS: Politician[] = [
+  ...CORE_POLITICIANS,
+  ...ALL_290_PARLIAMENTARY_MPS.filter(mp => !CORE_POLITICIANS.some(cp => cp.representedConstituencyId && cp.representedConstituencyId === mp.representedConstituencyId))
 ];
 
 export const POLITICIAN_SCORECARDS: PoliticianScorecard[] = ALL_POLITICIAN_SCORECARDS;

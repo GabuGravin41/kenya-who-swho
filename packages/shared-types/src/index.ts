@@ -117,7 +117,7 @@ export interface Politician {
   // Party & Nomination
   partyId: string;
   coalition: string;
-  nominationType: 'Universal Primaries' | 'Direct Ticket' | 'Special Interest List' | 'Independent';
+  nominationType: 'Universal Primaries' | 'Direct Ticket' | 'Special Interest List' | 'Independent' | 'Universal Suffrage General Election';
   nominatedBy?: string; // Who gave ticket or endorsed
   partyHoppingHistory: Array<{
     party: string;
@@ -253,3 +253,37 @@ export interface CivicStatsSummary {
   totalNgCdfAllocationsKes: number;
   totalCrowdReportsVerified: number;
 }
+
+export type HangoutCategory = 
+  | 'Church / Place of Worship' 
+  | 'Golf & Country Club' 
+  | 'Private Members Club' 
+  | 'Luxury Hotel Lounge & Bar' 
+  | 'Whiskey & Political Saloon';
+
+export interface EliteHangoutVenue {
+  id: string;
+  name: string;
+  category: HangoutCategory;
+  neighborhood: string; // e.g. Karen, Muthaiga, Upper Hill, CBD, Westlands, Kilimani
+  city: string;
+  frequentPatrons: Array<{
+    name: string;
+    role: string;
+    factionOrAffiliation: string;
+    politicianId?: string;
+  }>;
+  primeMeetingTimes: string; // e.g., "Sundays 09:30 - 13:00 (VIP Pews & Tea Terrace)"
+  accessRequirements: {
+    membershipFeeKes?: number;
+    membershipVetting?: string; // e.g., "Requires 2 full member proposers + 3-stage vetting committee + balloting"
+    publicAccessibility: 'Strictly Members Only' | 'Members & Accompanied Guests' | 'Open to Public (With Strict Dress Code & Security Screening)' | 'Reservation / Patron Purchase';
+    dressCode: string; // e.g., "Smart Casual (Colared shirts, strictly no denim/sandals/caps)"
+    entryFeeOrMinimumSpendKes?: number;
+    protocolAndSecurityTips: string[];
+  };
+  politicalSignificance: string; // Why this space matters for power brokers and political backchannels
+  coordinatesOrAddress: string;
+  photoUrl: string;
+}
+
