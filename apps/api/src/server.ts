@@ -414,6 +414,11 @@ app.post('/api/ussd', (req, res) => {
   res.send(response);
 });
 
-app.listen(PORT, () => {
-  console.log(`[Kenya Elections API] Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`[Kenya Elections API] Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
+
