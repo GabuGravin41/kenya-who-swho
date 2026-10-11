@@ -22,7 +22,9 @@ import {
   BUREAUCRACY_NODES,
   BUDGET_ALLOCATIONS,
   POWER_BROKERS,
-  CROWD_INTELLIGENCE_LOGS
+  CROWD_INTELLIGENCE_LOGS,
+  ALL_47_COUNTY_LEADERSHIP,
+  CountyLeadershipRecord
 } from '@kenya-elections/database';
 
 const API_BASE = '/api';
@@ -56,6 +58,14 @@ export const api = {
 
   getCounties: async (): Promise<County[]> => {
     return fetchWithFallback<County[]>(`${API_BASE}/counties`, ALL_47_COUNTIES);
+  },
+
+  getCountyLeadership: async (countyId?: string): Promise<CountyLeadershipRecord | null> => {
+    const query = countyId ? `/${encodeURIComponent(countyId)}` : '';
+    const fallback = countyId
+      ? ALL_47_COUNTY_LEADERSHIP.find((cl: CountyLeadershipRecord) => cl.countyId === countyId) || null
+      : null;
+    return fetchWithFallback<CountyLeadershipRecord | null>(`${API_BASE}/county-leadership${query}`, fallback);
   },
 
   getConstituencies: async (countyId?: string): Promise<Constituency[]> => {

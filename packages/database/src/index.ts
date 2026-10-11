@@ -11,7 +11,9 @@ import {
   BUREAUCRACY_NODES,
   BUDGET_ALLOCATIONS,
   POWER_BROKERS,
-  CROWD_INTELLIGENCE_LOGS
+  CROWD_INTELLIGENCE_LOGS,
+  ALL_47_COUNTY_LEADERSHIP,
+  CountyLeadershipRecord
 } from './seedData.js';
 import {
   County,
@@ -51,9 +53,17 @@ class InMemoryStore {
   private budgets: BudgetAllocation[] = [...BUDGET_ALLOCATIONS];
   private brokers: PowerBroker[] = [...POWER_BROKERS];
   private crowdLogs: CrowdIntelligenceLog[] = [...CROWD_INTELLIGENCE_LOGS];
+  private countyLeadership: CountyLeadershipRecord[] = [...ALL_47_COUNTY_LEADERSHIP];
 
   getCounties() { return this.counties; }
   getCountyById(id: string) { return this.counties.find(c => c.id === id || c.name.toLowerCase() === id.toLowerCase()); }
+
+  getCountyLeadership(countyId?: string) {
+    if (countyId) {
+      return this.countyLeadership.find(cl => cl.countyId === countyId || cl.countyName.toLowerCase() === countyId.toLowerCase());
+    }
+    return this.countyLeadership;
+  }
 
   getConstituencies(countyId?: string) {
     if (countyId) {

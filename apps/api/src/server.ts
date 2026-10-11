@@ -31,14 +31,28 @@ app.get('/api/counties/:id', (req, res) => {
   
   const constituencies = inMemoryStore.getConstituencies(county.id);
   const politicians = inMemoryStore.getPoliticians({ countyId: county.id });
+  const leadership = inMemoryStore.getCountyLeadership(county.id);
   const budgets = inMemoryStore.getBudgets(county.id);
 
   res.json({
     ...county,
+    leadership,
     constituencies,
     politicians,
     budgets
   });
+});
+
+// 2.5 County Leadership (Governors, Senators, Women Reps for all 47 Counties)
+app.get('/api/county-leadership', (req, res) => {
+  const { countyId } = req.query;
+  res.json(inMemoryStore.getCountyLeadership(countyId as string | undefined));
+});
+
+app.get('/api/county-leadership/:countyId', (req, res) => {
+  const cl = inMemoryStore.getCountyLeadership(req.params.countyId);
+  if (!cl) return res.status(404).json({ error: 'County leadership record not found' });
+  res.json(cl);
 });
 
 // 3. Constituencies

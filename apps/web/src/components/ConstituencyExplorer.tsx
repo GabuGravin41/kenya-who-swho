@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { County, Constituency, Ward, BudgetAllocation } from '@kenya-elections/shared-types';
+import { CountyLeadershipRecord } from '@kenya-elections/database';
 import { MapPin, Search } from 'lucide-react';
 import { api } from '../api';
 
@@ -9,6 +10,7 @@ interface ConstituencyExplorerProps {
 
 export const ConstituencyExplorer: React.FC<ConstituencyExplorerProps> = ({ counties }) => {
   const [selectedCounty, setSelectedCounty] = useState<County>(counties[counties.length - 1] || counties[0]); // Default Nairobi or first
+  const [leadership, setLeadership] = useState<CountyLeadershipRecord | null>(null);
   const [constituencies, setConstituencies] = useState<Constituency[]>([]);
   const [selectedConstituency, setSelectedConstituency] = useState<Constituency | null>(null);
   const [wards, setWards] = useState<Ward[]>([]);
@@ -17,6 +19,7 @@ export const ConstituencyExplorer: React.FC<ConstituencyExplorerProps> = ({ coun
 
   useEffect(() => {
     if (selectedCounty) {
+      api.getCountyLeadership(selectedCounty.id).then(setLeadership);
       api.getConstituencies(selectedCounty.id).then(list => {
         setConstituencies(list);
         if (list.length > 0) {
@@ -153,6 +156,80 @@ export const ConstituencyExplorer: React.FC<ConstituencyExplorerProps> = ({ coun
                   <span className="text-sm font-bold text-emerald-400">{constituencies.length} Monitored</span>
                 </div>
               </div>
+
+              {/* County Executive & Senate Leadership Trio */}
+              {leadership && (
+                <div className="mt-5 pt-5 border-t border-slate-800">
+                  <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center justify-between">
+                    <span>County Leadership Trio (2022 - 2027)</span>
+                    <span className="text-[11px] text-emerald-400 font-normal">All 47 Counties Monitored</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {/* Governor */}
+                    <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-start gap-3">
+                      <img 
+                        src={leadership.governor.photoUrl} 
+                        alt={leadership.governor.name} 
+                        className="w-11 h-11 rounded-full object-cover border border-amber-500/40 shrink-0"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-[10px] font-bold uppercase text-amber-400 tracking-wider">Governor</div>
+                        <div className="text-xs font-bold text-white truncate">{leadership.governor.name}</div>
+                        <div className="flex items-center gap-1.5 mt-1 text-[11px] text-slate-400">
+                          <span className="font-semibold text-emerald-400">{leadership.governor.party}</span>
+                          <span>•</span>
+                          <span className="truncate">{leadership.governor.coalition}</span>
+                        </div>
+                        <div className="mt-1 text-[10px] bg-slate-900 px-2 py-0.5 rounded text-amber-300 font-medium inline-block border border-slate-800">
+                          2027: {leadership.governor.vying2027}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Senator */}
+                    <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-start gap-3">
+                      <img 
+                        src={leadership.senator.photoUrl} 
+                        alt={leadership.senator.name} 
+                        className="w-11 h-11 rounded-full object-cover border border-blue-500/40 shrink-0"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-[10px] font-bold uppercase text-blue-400 tracking-wider">Senator</div>
+                        <div className="text-xs font-bold text-white truncate">{leadership.senator.name}</div>
+                        <div className="flex items-center gap-1.5 mt-1 text-[11px] text-slate-400">
+                          <span className="font-semibold text-emerald-400">{leadership.senator.party}</span>
+                          <span>•</span>
+                          <span className="truncate">{leadership.senator.coalition}</span>
+                        </div>
+                        <div className="mt-1 text-[10px] bg-slate-900 px-2 py-0.5 rounded text-blue-300 font-medium inline-block border border-slate-800">
+                          2027: {leadership.senator.vying2027}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Women Representative */}
+                    <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-start gap-3">
+                      <img 
+                        src={leadership.womenRep.photoUrl} 
+                        alt={leadership.womenRep.name} 
+                        className="w-11 h-11 rounded-full object-cover border border-purple-500/40 shrink-0"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-[10px] font-bold uppercase text-purple-400 tracking-wider">Women Rep</div>
+                        <div className="text-xs font-bold text-white truncate">{leadership.womenRep.name}</div>
+                        <div className="flex items-center gap-1.5 mt-1 text-[11px] text-slate-400">
+                          <span className="font-semibold text-emerald-400">{leadership.womenRep.party}</span>
+                          <span>•</span>
+                          <span className="truncate">{leadership.womenRep.coalition}</span>
+                        </div>
+                        <div className="mt-1 text-[10px] bg-slate-900 px-2 py-0.5 rounded text-purple-300 font-medium inline-block border border-slate-800">
+                          2027: {leadership.womenRep.vying2027}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

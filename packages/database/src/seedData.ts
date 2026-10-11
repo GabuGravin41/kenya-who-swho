@@ -8,8 +8,20 @@ import {
   BureaucracyNode,
   BudgetAllocation,
   PowerBroker,
-  CrowdIntelligenceLog
+  CrowdIntelligenceLog,
 } from '@kenya-elections/shared-types';
+
+import { ALL_290_CONSTITUENCIES } from './constituenciesData.js';
+import { ALL_47_COUNTY_LEADERSHIP } from './countyLeadershipData.js';
+import { ALL_BUREAUCRACY_NODES } from './bureaucracyData.js';
+import { ALL_POWER_BROKERS } from './financialPowerBrokersData.js';
+import { ALL_POLITICIAN_SCORECARDS } from './parliamentScorecardsData.js';
+
+export * from './constituenciesData.js';
+export * from './countyLeadershipData.js';
+export * from './bureaucracyData.js';
+export * from './financialPowerBrokersData.js';
+export * from './parliamentScorecardsData.js';
 
 export const ALL_47_COUNTIES: County[] = [
   { id: '001', code: 1, name: 'Mombasa', formerProvince: 'Coast', capital: 'Mombasa City', population: 1208333, registeredVoters: 580282, annualEquitableShareKes: 8900000000, overviewSummary: 'Coastal economic and maritime hub; home to the Port of Mombasa.' },
@@ -61,43 +73,7 @@ export const ALL_47_COUNTIES: County[] = [
   { id: '047', code: 47, name: 'Nairobi', formerProvince: 'Nairobi', capital: 'Nairobi City', population: 4397073, registeredVoters: 2415310, annualEquitableShareKes: 20000000000, overviewSummary: 'National capital, diplomatic powerhouse, and East Africa\'s financial epicenter.' },
 ];
 
-export const SAMPLE_CONSTITUENCIES: Constituency[] = [
-  // Nairobi (047)
-  { id: 'c-langata', countyId: '047', code: '277', name: 'Lang\'ata', registeredVoters: 145000, ngCdfAllocationKes: 165000000, overviewSummary: 'Diverse urban constituency hosting Wilson Airport and affluent suburbs.' },
-  { id: 'c-kibra', countyId: '047', code: '278', name: 'Kibra', registeredVoters: 128000, ngCdfAllocationKes: 155000000, overviewSummary: 'Historic political cradle known for intense grassroots mobilization.' },
-  { id: 'c-embakasi-east', countyId: '047', code: '283', name: 'Embakasi East', registeredVoters: 154000, ngCdfAllocationKes: 172000000, overviewSummary: 'Rapidly expanding youth-dominated residential constituency.' },
-  { id: 'c-starehe', countyId: '047', code: '286', name: 'Starehe', registeredVoters: 166000, ngCdfAllocationKes: 168000000, overviewSummary: 'Encompasses Nairobi CBD, Kariokor, and key business arteries.' },
-  { id: 'c-westlands', countyId: '047', code: '275', name: 'Westlands', registeredVoters: 160000, ngCdfAllocationKes: 165000000, overviewSummary: 'Commercial hub hosting diplomatic missions and financial headquarters.' },
-  
-  // Kiambu (022)
-  { id: 'c-kikuyu', countyId: '022', code: '115', name: 'Kikuyu', registeredVoters: 108000, ngCdfAllocationKes: 150000000, overviewSummary: 'Metropolitan constituency along Southern Bypass; seat of NA Majority Leader.' },
-  { id: 'c-thika-town', countyId: '022', code: '121', name: 'Thika Town', registeredVoters: 151000, ngCdfAllocationKes: 160000000, overviewSummary: 'Industrial city of pineapple processing and manufacturing plants.' },
-
-  // Uasin Gishu (027)
-  { id: 'c-kapseret', countyId: '027', code: '143', name: 'Kapseret', registeredVoters: 75000, ngCdfAllocationKes: 145000000, overviewSummary: 'Home to Eldoret International Airport; focal point of Rift Valley politics.' },
-  { id: 'c-ainabkoi', countyId: '027', code: '144', name: 'Ainabkoi', registeredVoters: 63000, ngCdfAllocationKes: 138000000, overviewSummary: 'Agricultural and commercial suburban outskirts of Eldoret.' },
-
-  // Murang'a (021)
-  { id: 'c-kiharu', countyId: '021', code: '109', name: 'Kiharu', registeredVoters: 120000, ngCdfAllocationKes: 155000000, overviewSummary: 'High-visibility constituency known for model school renovation programs.' },
-
-  // Kisumu (042)
-  { id: 'c-kisumu-central', countyId: '042', code: '241', name: 'Kisumu Central', registeredVoters: 130000, ngCdfAllocationKes: 158000000, overviewSummary: 'Lakeside CBD constituency with active youth and mercantile voter base.' },
-
-  // Migori (044)
-  { id: 'c-suna-east', countyId: '044', code: '254', name: 'Suna East', registeredVoters: 55000, ngCdfAllocationKes: 140000000, overviewSummary: 'Cosmopolitan trading constituency along the Migori transit corridor.' },
-
-  // Siaya (041)
-  { id: 'c-rarieda', countyId: '041', code: '235', name: 'Rarieda', registeredVoters: 89000, ngCdfAllocationKes: 148000000, overviewSummary: 'Known for solar lighting and comprehensive rural school infrastructure drives.' },
-
-  // Kakamega (037)
-  { id: 'c-lurambi', countyId: '037', code: '202', name: 'Lurambi', registeredVoters: 160000, ngCdfAllocationKes: 165000000, overviewSummary: 'Hosts Kakamega town, Masinde Muliro University, and provincial offices.' },
-
-  // Nakuru (032)
-  { id: 'c-nakuru-town-east', countyId: '032', code: '172', name: 'Nakuru Town East', registeredVoters: 110000, ngCdfAllocationKes: 152000000, overviewSummary: 'Urban heart of Nakuru City with manufacturing and trade enterprises.' },
-
-  // Kilifi (003)
-  { id: 'c-malindi', countyId: '003', code: '015', name: 'Malindi', registeredVoters: 95000, ngCdfAllocationKes: 149000000, overviewSummary: 'Major coastal tourism, marine trade, and historic settlement.' },
-];
+export const SAMPLE_CONSTITUENCIES: Constituency[] = ALL_290_CONSTITUENCIES;
 
 export const SAMPLE_WARDS: Ward[] = [
   { id: 'w-karen', constituencyId: 'c-langata', countyId: '047', name: 'Karen', registeredVoters: 22000, wardFundAllocationKes: 25000000 },
@@ -670,317 +646,195 @@ export const POLITICIANS: Politician[] = [
     declaredAssetsSummary: 'Aviation assets, mining enterprises, transport fleet.',
     keyAllies: ['Kirinyaga Grassroots Alliance'],
     knownRivals: ['Anne Waiguru'],
+  },
+
+  // 13. George Aladwa - Makadara MP (Silent Plenary Case)
+  {
+    id: 'p-aladwa',
+    name: 'George Omwera Aladwa',
+    aliases: ['Mayor Aladwa', 'The Ground General'],
+    photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
+    gender: 'Male',
+    originCountyId: '038', // Vihiga roots / Nairobi base
+    representedCountyId: '047',
+    representedConstituencyId: 'c-288',
+    isIncumbent: true,
+    currentPosition: 'mp',
+    positionCategory: 'legislature',
+    officeHeldSince: '2017-08-08',
+    partyId: 'odm',
+    coalition: 'Azimio la Umoja',
+    nominationType: 'Universal Primaries',
+    nominatedBy: 'ODM Nairobi Branch',
+    partyHoppingHistory: [
+      { party: 'ODM', fromYear: 2007, toYear: 2027, notes: 'Former Mayor of Nairobi City Council, 2-term Makadara MP' }
+    ],
+    vyingForPosition: 'mp',
+    vyingConstituencyId: 'c-288',
+    vyingPartyId: 'odm',
+    campaignSlogan: 'Bazuu wa Makadara',
+    estimatedSupportersCount: 65000,
+    latestPollScorePercentage: 48.0,
+    publicSentimentRating: 46,
+    originStory: 'Rose through Eastlands grassroots football leagues and municipal ward politics to become the last Mayor of Nairobi under the old constitution.',
+    educationSummary: ['Kibera High School', 'Kenya Institute of Management Certificate'],
+    careerHistory: ['MP for Makadara (2017-Present)', 'Mayor of Nairobi City Council (2011-2013)', 'ODM Nairobi County Chairman'],
+    declaredAssetsSummary: 'Residential developments in Eastlands and Vihiga.',
+    keyAllies: ['Raila Odinga', 'Babu Owino'],
+    knownRivals: ['Bernard Okoth', 'UDA Makadara Aspirants']
+  },
+
+  // 14. Samuel Arama - Nakuru Town West MP (Low Plenary Index)
+  {
+    id: 'p-arama',
+    name: 'Samuel Arama',
+    aliases: ['Arama', 'Nakuru West Survivor'],
+    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400',
+    gender: 'Male',
+    originCountyId: '045', // Kisii roots / Nakuru base
+    representedCountyId: '032',
+    representedConstituencyId: 'c-175',
+    isIncumbent: true,
+    currentPosition: 'mp',
+    positionCategory: 'legislature',
+    officeHeldSince: '2013-03-27',
+    partyId: 'jubilee',
+    coalition: 'Kenya Kwanza Accord',
+    nominationType: 'Direct Ticket',
+    nominatedBy: 'Jubilee Party / UDA Accord',
+    partyHoppingHistory: [
+      { party: 'ODM', fromYear: 2013, toYear: 2017, notes: 'Won initial Nakuru West seat on ODM ticket' },
+      { party: 'Jubilee', fromYear: 2017, toYear: 2027, notes: 'Re-elected on Jubilee; aligned with ruling coalition' }
+    ],
+    vyingForPosition: 'mp',
+    vyingConstituencyId: 'c-175',
+    vyingPartyId: 'uda',
+    campaignSlogan: 'Maendeleo Bila Ubaguzi',
+    estimatedSupportersCount: 48000,
+    latestPollScorePercentage: 44.0,
+    publicSentimentRating: 40,
+    originStory: 'Built influence as a transport and land dealer in Nakuru before uniting cosmopolitan diaspora voters in Nakuru Town West.',
+    educationSummary: ['Kisii High School', 'Business Administration Studies'],
+    careerHistory: ['MP for Nakuru Town West (2013-Present, 3 consecutive terms)'],
+    declaredAssetsSummary: 'Commercial properties and urban plots in Nakuru City.',
+    keyAllies: ['Susan Kihika', 'William Ruto'],
+    knownRivals: ['Erick Onyango (ODM)', 'Kamau Mwangi']
+  },
+
+  // 15. Millie Odhiambo Mabona - Suba North MP (High Impact Lawmaker)
+  {
+    id: 'p-millie',
+    name: 'Millie Grace Akoth Odhiambo Mabona',
+    aliases: ['Millie Mabona', 'Bad Mother', 'Queen of the Hansard'],
+    photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400',
+    gender: 'Female',
+    originCountyId: '043', // Homa Bay
+    representedCountyId: '043',
+    representedConstituencyId: 'c-251',
+    isIncumbent: true,
+    currentPosition: 'mp',
+    positionCategory: 'legislature',
+    officeHeldSince: '2008 (Nominated) / 2013 (Suba North)',
+    partyId: 'odm',
+    coalition: 'Azimio la Umoja',
+    nominationType: 'Universal Primaries',
+    nominatedBy: 'ODM Primary Delegates',
+    partyHoppingHistory: [
+      { party: 'ODM', fromYear: 2007, toYear: 2027, notes: 'Unbroken loyalty to ODM; pioneer champion of child rights laws' }
+    ],
+    vyingForPosition: 'mp',
+    vyingConstituencyId: 'c-251',
+    vyingPartyId: 'odm',
+    campaignSlogan: 'Fearless Representation & Child Protection',
+    estimatedSupportersCount: 88000,
+    latestPollScorePercentage: 72.0,
+    publicSentimentRating: 81,
+    originStory: 'Hails from Rusinga Island, daughter of veteran politician Harrison Odhiambo. Renowned child rights advocate who founded CRADLE before entering parliament.',
+    educationSummary: ['Master of Laws (LLM) - New York University', 'Bachelor of Laws (LLB) - University of Nairobi', 'Limuru Girls School'],
+    careerHistory: ['MP for Suba North (2013-Present)', 'Nominated MP (2008-2013)', 'Founder, The CRADLE Children\'s Foundation'],
+    declaredAssetsSummary: 'Legal consultancy equity and lakeside eco-tourism property.',
+    keyAllies: ['Raila Odinga', 'Gladys Wanga', 'James Orengo'],
+    knownRivals: ['James Rege', 'UDA South Nyanza Alliance']
+  },
+
+  // 16. Junet Mohamed - Suna East MP (Minority Leader)
+  {
+    id: 'p-junet',
+    name: 'Junet Sheikh Nuh Mohamed',
+    aliases: ['Junet', 'The Floor Strategist'],
+    photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
+    gender: 'Male',
+    originCountyId: '044', // Migori
+    representedCountyId: '044',
+    representedConstituencyId: 'c-255',
+    isIncumbent: true,
+    currentPosition: 'mp',
+    positionCategory: 'legislature',
+    officeHeldSince: '2013-03-27',
+    partyId: 'odm',
+    coalition: 'Azimio la Umoja',
+    nominationType: 'Direct Ticket',
+    nominatedBy: 'ODM National Executive Committee',
+    partyHoppingHistory: [
+      { party: 'ODM', fromYear: 2003, toYear: 2027, notes: 'Former Mayor of Migori Town, 3-term Suna East MP' }
+    ],
+    vyingForPosition: 'mp',
+    vyingConstituencyId: 'c-255',
+    vyingPartyId: 'odm',
+    campaignSlogan: 'Strict Oversight & Parliamentary Mastery',
+    estimatedSupportersCount: 78000,
+    latestPollScorePercentage: 66.0,
+    publicSentimentRating: 64,
+    originStory: 'First Kenyan Somali elected in Nyanza region, born and raised in Migori Town where his family ran merchant wholesale businesses for generations.',
+    educationSummary: ['Bachelor of Business Administration - Woodvale Institute', 'Lenana School'],
+    careerHistory: ['Leader of the Minority Party, National Assembly (2024-Present)', 'National Assembly Minority Whip (2017-2022)', 'MP for Suna East (2013-Present)', 'Mayor of Migori (2003-2007)'],
+    declaredAssetsSummary: 'Wholesale retail logistics and commercial property in Migori and Nairobi.',
+    keyAllies: ['Raila Odinga', 'Opiyo Wandayi', 'Babu Owino'],
+    knownRivals: ['John Pesa', 'Elijah Odhiambo']
+  },
+
+  // 17. Tim Wanyonyi - Westlands MP
+  {
+    id: 'p-wanyonyi',
+    name: 'Timothy Wanyonyi Wetang\'ula',
+    aliases: ['Tim Wanyonyi', 'Mr. Clean Leadership'],
+    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400',
+    gender: 'Male',
+    originCountyId: '039', // Bungoma roots / Nairobi base
+    representedCountyId: '047',
+    representedConstituencyId: 'c-274',
+    isIncumbent: true,
+    currentPosition: 'mp',
+    positionCategory: 'legislature',
+    officeHeldSince: '2013-03-27',
+    partyId: 'odm',
+    coalition: 'Azimio la Umoja',
+    nominationType: 'Direct Ticket',
+    nominatedBy: 'ODM Central Committee',
+    partyHoppingHistory: [
+      { party: 'ODM', fromYear: 2007, toYear: 2027, notes: 'Nominated Councilor Nairobi City Council (2007-2012), 3 terms Westlands MP' }
+    ],
+    vyingForPosition: 'governor',
+    vyingCountyId: '047', // Nairobi Governor 2027 Contender
+    vyingPartyId: 'odm',
+    campaignSlogan: 'A City of Order, Dignity & Transparency',
+    estimatedSupportersCount: 420000,
+    latestPollScorePercentage: 62.0,
+    publicSentimentRating: 78,
+    originStory: 'Brother of National Assembly Speaker Moses Wetang\'ula. Overcame life-altering spinal injury from a gunshot robbery to become Kenya\'s foremost champion of persons with disabilities and urban educational bursaries.',
+    educationSummary: ['Bachelor of Laws (LLB) - University of Buckingham, UK', 'Postgraduate Diploma - Kenya School of Law'],
+    careerHistory: ['MP for Westlands (2013-Present)', 'Nominated Councilor, City Council of Nairobi (2007-2012)', 'Managing Partner, Wetang\'ula & Company Advocates'],
+    declaredAssetsSummary: 'Commercial law practice holdings, residential investments in Nairobi and Bungoma.',
+    keyAllies: ['Raila Odinga', 'Edwin Sifuna', 'George Natembeya'],
+    knownRivals: ['Johnson Sakaja', 'Nelson Havi']
   }
 ];
 
-export const POLITICIAN_SCORECARDS: PoliticianScorecard[] = [
-  {
-    id: 'sc-sudi',
-    politicianId: 'p-sudi',
-    evaluationPeriod: '13th Parliament (2022 - Present)',
-    hansardSpeechCount: 0, // ZERO speeches in the 13th Parliament!
-    billsSponsoredCount: 0,
-    billsPassedCount: 0,
-    motionsTabledCount: 0,
-    committeeAttendancePercentage: 14,
-    floorAttendancePercentage: 22,
-    activityTier: 'Ghost/Silent',
-    overallDeliveryScore: 19,
-    notableContributions: ['Active attendance at political rallies and weekend church fundraisers in Rift Valley and Western Kenya.'],
-    zeroActivityFlag: true,
-    flagExplanation: 'Official Parliamentary Hansard indices record zero substantive spoken contributions on the floor of the National Assembly across both the 12th and 13th Parliaments. Never sponsored a public bill.',
-    auditorGeneralFlagsCount: 7,
-    reportedScandals: [
-      {
-        title: 'Academic Credentials Forgery Case',
-        year: 2016,
-        agency: 'Ethics and Anti-Corruption Commission (EACC)',
-        description: 'Charged with forging a diploma certificate in Business Management from the Kenya Institute of Management (KIM) and KCSE certificate from Highway Secondary School.',
-        status: 'Cleared'
-      },
-      {
-        title: 'Kapseret NG-CDF Inflated School Construction',
-        year: 2023,
-        agency: 'Auditor General of Kenya',
-        amountKes: 42000000,
-        description: 'Auditor General flagged unvouched payments and delayed works in multi-million vocational training center tenders.',
-        status: 'Under Investigation'
-      }
-    ]
-  },
-  {
-    id: 'sc-ichungwah',
-    politicianId: 'p-ichungwah',
-    evaluationPeriod: '13th Parliament (2022 - Present)',
-    hansardSpeechCount: 412,
-    billsSponsoredCount: 18,
-    billsPassedCount: 11,
-    motionsTabledCount: 29,
-    committeeAttendancePercentage: 88,
-    floorAttendancePercentage: 92,
-    activityTier: 'High Impact',
-    overallDeliveryScore: 84,
-    notableContributions: [
-      'Sponsored and steered the Affordable Housing Bill 2023 through passage.',
-      'Piloted the Finance Bill 2023 and 2024 through parliamentary committee stages.',
-      'Instrumental in National Government CDF Amendment proposals.'
-    ],
-    zeroActivityFlag: false,
-    auditorGeneralFlagsCount: 2,
-    reportedScandals: [
-      {
-        title: 'Northlands City Farm Invasion Allegations',
-        year: 2023,
-        agency: 'Directorate of Criminal Investigations (DCI)',
-        description: 'Investigated by police over alleged incendiary public remarks preceding the synchronized breach of the Kenyatta family Northlands estate.',
-        status: 'Alleged'
-      }
-    ]
-  },
-  {
-    id: 'sc-babu',
-    politicianId: 'p-babu-owino',
-    evaluationPeriod: '13th Parliament (2022 - Present)',
-    hansardSpeechCount: 168,
-    billsSponsoredCount: 3,
-    billsPassedCount: 1,
-    motionsTabledCount: 8,
-    committeeAttendancePercentage: 74,
-    floorAttendancePercentage: 81,
-    activityTier: 'Active',
-    overallDeliveryScore: 78,
-    notableContributions: [
-      'Sponsored the Higher Education Loans Board (HELB) Amendment Bill to remove penalty interest on unemployed graduates.',
-      'Pioneered free high school online STEM revision masterclasses for KCSE candidates nationwide.',
-      'Constructed state-of-the-art multi-storey public primary school blocks across Embakasi East.'
-    ],
-    zeroActivityFlag: false,
-    auditorGeneralFlagsCount: 1,
-    reportedScandals: [
-      {
-        title: 'B-Club Shooting Incident (DJ Evolve Case)',
-        year: 2020,
-        agency: 'Office of the Director of Public Prosecutions (ODPP)',
-        description: 'Charged with attempted murder following a nightclub shooting incident. Reached alternative dispute resolution covering medical and ongoing rehabilitation costs.',
-        status: 'Cleared'
-      }
-    ]
-  },
-  {
-    id: 'sc-nyoro',
-    politicianId: 'p-ndindi-nyoro',
-    evaluationPeriod: '13th Parliament (2022 - Present)',
-    hansardSpeechCount: 285,
-    billsSponsoredCount: 6,
-    billsPassedCount: 4,
-    motionsTabledCount: 16,
-    committeeAttendancePercentage: 94,
-    floorAttendancePercentage: 90,
-    activityTier: 'High Impact',
-    overallDeliveryScore: 89,
-    notableContributions: [
-      'Chaired Budget & Appropriations Committee managing annual KES 3.9 Trillion national budget hearings.',
-      'Re-engineered Kiharu NG-CDF into national benchmark: tiled floors in all public schools, KES 1,000 day secondary school subsidized fees program.',
-      'Introduced comprehensive school feeding programs in rural schools.'
-    ],
-    zeroActivityFlag: false,
-    auditorGeneralFlagsCount: 0,
-    reportedScandals: []
-  },
-  {
-    id: 'sc-sifuna',
-    politicianId: 'p-sifuna',
-    evaluationPeriod: '4th Senate (2022 - Present)',
-    hansardSpeechCount: 310,
-    billsSponsoredCount: 4,
-    billsPassedCount: 1,
-    motionsTabledCount: 14,
-    committeeAttendancePercentage: 91,
-    floorAttendancePercentage: 89,
-    activityTier: 'High Impact',
-    overallDeliveryScore: 82,
-    notableContributions: [
-      'Interrogated Nairobi City County executive over KES 100M legal fee expenditures and uncollected garbage crisis.',
-      'Tabled motions investigating water rationing cartels in Nairobi Eastlands.',
-      'Co-chaired Bipartisan Talks Committee on electoral and cost-of-living reforms.'
-    ],
-    zeroActivityFlag: false,
-    auditorGeneralFlagsCount: 0,
-    reportedScandals: []
-  },
-  {
-    id: 'sc-omtatah',
-    politicianId: 'p-omtatah',
-    evaluationPeriod: '4th Senate (2022 - Present)',
-    hansardSpeechCount: 275,
-    billsSponsoredCount: 5,
-    billsPassedCount: 2,
-    motionsTabledCount: 19,
-    committeeAttendancePercentage: 96,
-    floorAttendancePercentage: 95,
-    activityTier: 'High Impact',
-    overallDeliveryScore: 92,
-    notableContributions: [
-      'Consistently ranked top-performing Senator in legislative fidelity and public resource vigilance.',
-      'Tabled groundbreaking forensic audits on national debt servicing and fictitious foreign loans.',
-      'Drafted County Allocation of Revenue oversight benchmarks for Busia border revenues.'
-    ],
-    zeroActivityFlag: false,
-    auditorGeneralFlagsCount: 0,
-    reportedScandals: []
-  }
-];
+export const POLITICIAN_SCORECARDS: PoliticianScorecard[] = ALL_POLITICIAN_SCORECARDS;
 
-export const BUREAUCRACY_NODES: BureaucracyNode[] = [
-  {
-    id: 'bn-cs-treasury',
-    title: 'Cabinet Secretary for the National Treasury and Economic Planning',
-    branch: 'Executive',
-    departmentMinistry: 'The National Treasury',
-    holderName: 'John Mbadi Ng\'ongo',
-    holderPhotoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
-    appointmentType: 'Presidential Appointment (National Assembly Approval)',
-    appointingAuthority: 'President of Kenya upon recommendation of Parliamentary Approval Committee',
-    appointingLawArticle: 'Article 152(2) of the Constitution of Kenya 2010',
-    dateAssumedOffice: '2024-08-08',
-    annualBudgetOversightKes: 3900000000000,
-    mandateOverview: 'Formulating macroeconomic policy, national budget preparation, debt sustainability management, and exchequer releases.',
-    accountabilityHotlineOrEmail: 'ps@treasury.go.ke',
-    isPoliticalAspirant: true,
-    futureVyingTarget: 'Suba South MP / Homa Bay Politics (2027)'
-  },
-  {
-    id: 'bn-cs-interior',
-    title: 'Cabinet Secretary for Interior and National Administration',
-    branch: 'Executive',
-    departmentMinistry: 'Ministry of Interior',
-    holderName: 'Prof. Kithure Kindiki',
-    holderPhotoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80',
-    appointmentType: 'Presidential Appointment (National Assembly Approval)',
-    appointingAuthority: 'President of Kenya',
-    appointingLawArticle: 'Article 152(2) & Article 147 of the Constitution of Kenya',
-    dateAssumedOffice: '2022-10-27 (Sworn in as DP 2024-11-01)',
-    annualBudgetOversightKes: 240000000000,
-    mandateOverview: 'Internal security coordination, National Police Service oversight, immigration and registration of persons, disaster response.',
-    accountabilityHotlineOrEmail: 'interior@interior.go.ke',
-    isPoliticalAspirant: true,
-    futureVyingTarget: 'Presidency / Running Mate (2027)'
-  },
-  {
-    id: 'bn-ps-internal-security',
-    title: 'Principal Secretary for Internal Security & National Administration',
-    branch: 'Executive',
-    departmentMinistry: 'State Department for Internal Security',
-    holderName: 'Dr. Raymond Omollo',
-    holderPhotoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80',
-    appointmentType: 'Presidential Appointment (National Assembly Approval)',
-    appointingAuthority: 'President of Kenya from Public Service Commission nominees',
-    appointingLawArticle: 'Article 155(2) of the Constitution of Kenya',
-    dateAssumedOffice: '2022-12-02',
-    annualBudgetOversightKes: 185000000000,
-    mandateOverview: 'Accounting officer for internal security operations, coordination of 8 Regional Commissioners, 47 County Commissioners, and chiefs.',
-    accountabilityHotlineOrEmail: 'ps.security@interior.go.ke',
-    isPoliticalAspirant: false
-  },
-  {
-    id: 'bn-chief-justice',
-    title: 'Chief Justice and President of the Supreme Court of Kenya',
-    branch: 'Judiciary',
-    departmentMinistry: 'Judiciary of Kenya',
-    holderName: 'Hon. Lady Justice Martha Karambu Koome',
-    holderPhotoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
-    appointmentType: 'Judicial Service Commission Appointment',
-    appointingAuthority: 'President of Kenya upon JSC competitive recruitment and Parliamentary vetting',
-    appointingLawArticle: 'Article 166(1)(a) of the Constitution of Kenya',
-    dateAssumedOffice: '2021-05-21',
-    annualBudgetOversightKes: 22000000000,
-    mandateOverview: 'Head of the Judiciary, chair of the Judicial Service Commission, ultimate constitutional arbiter and presidential election petition judge.',
-    accountabilityHotlineOrEmail: 'cj@judiciary.go.ke',
-    isPoliticalAspirant: false
-  },
-  {
-    id: 'bn-auditor-general',
-    title: 'Auditor-General of the Republic of Kenya',
-    branch: 'Independent Commission',
-    departmentMinistry: 'Office of the Auditor-General (OAG)',
-    holderName: 'FCPA Nancy Gathungu, CBS',
-    holderPhotoUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
-    appointmentType: 'Presidential Appointment (National Assembly Approval)',
-    appointingAuthority: 'President of Kenya following competitive selection by a special search panel',
-    appointingLawArticle: 'Article 229 of the Constitution of Kenya',
-    dateAssumedOffice: '2020-07-17',
-    annualBudgetOversightKes: 8500000000,
-    mandateOverview: 'Independent forensic audit of all public funds across the National Government, 47 Counties, Judiciary, Parliament, and all state corporations.',
-    accountabilityHotlineOrEmail: 'info@oagkenya.go.ke',
-    isPoliticalAspirant: false
-  },
-  {
-    id: 'bn-cde-nairobi',
-    title: 'County Director of Education - Nairobi City County',
-    branch: 'County Administration',
-    departmentMinistry: 'Ministry of Education & Teachers Service Commission',
-    holderName: 'Margaret Lesuuda',
-    holderPhotoUrl: 'https://images.unsplash.com/photo-1548142813-c348350df52b?w=400&auto=format&fit=crop&q=80',
-    appointmentType: 'Public Service Commission Appointment',
-    appointingAuthority: 'Cabinet Secretary for Education via Public Service Commission',
-    appointingLawArticle: 'Basic Education Act Section 46',
-    dateAssumedOffice: '2023-01-15',
-    annualBudgetOversightKes: 14000000000,
-    mandateOverview: 'Supervising national exams (KPSEA, KCSE), capitation disbursement to public schools, CBC implementation, teacher discipline in Nairobi.',
-    accountabilityHotlineOrEmail: 'cde.nairobi@education.go.ke',
-    isPoliticalAspirant: false
-  }
-];
+export const BUREAUCRACY_NODES: BureaucracyNode[] = ALL_BUREAUCRACY_NODES;
 
-export const POWER_BROKERS: PowerBroker[] = [
-  {
-    id: 'pb-kenyatta-family',
-    name: 'The Kenyatta Family & Associates',
-    aliasOrTitle: 'The First Family Dynasty',
-    originRegion: 'Central Kenya (Kiambu) & Rift Valley',
-    estimatedNetWorthKes: 250000000000,
-    primarySectors: ['Banking & Fintech', 'Dairy Processing', 'Real Estate & Urban Land', 'Media', 'Hospitality'],
-    flagshipCompanies: [
-      'NCBA Group (Largest retail bank lender in East Africa via M-Shwari)',
-      'Brookside Dairy (Controls over 45% of formal Kenyan milk processing)',
-      'Northlands City Development (11,000 acre master-planned city in Ruiru)',
-      'Heritage Hotels & Great Rift Valley Lodge',
-      'Mediamax Network (K24 TV, Kameme FM, People Daily)'
-    ],
-    associatedPoliticalFactions: ['Jubilee Party', 'Azimio la Umoja', 'Mount Kenya Foundation'],
-    familyDynasty: 'Kenyatta Family',
-    notableStateTenders: [
-      'Historical military food rations supply',
-      'Strategic bank infrastructure for Treasury bonds',
-      'SGR land compensation disbursements'
-    ],
-    influenceSummary: 'The most formidable economic dynasty in post-colonial Kenya, with vast land reserves across Rift Valley, Central, and Coast provinces.',
-    photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80'
-  },
-  {
-    id: 'pb-wanjigi',
-    name: 'Jimi Richard Wanjigi',
-    aliasOrTitle: 'The James Bond of Kenyan Procurement & Political Kingmaker',
-    originRegion: 'Central Kenya (Murang\'a) / Nairobi',
-    estimatedNetWorthKes: 55000000000,
-    primarySectors: ['Mega-Infrastructure Procurement', 'Security Intelligence Contracts', 'Real Estate', 'Agribusiness'],
-    flagshipCompanies: [
-      'Kwacha Group of Companies',
-      'Tyl Ltd (High-security government installations and weapons systems)',
-      'Carbacid Investments interests',
-      'Prime Westlands commercial complexes'
-    ],
-    associatedPoliticalFactions: ['Safina Party Leader', 'Former financier of Jubilee (2013) & NASA (2017)'],
-    familyDynasty: 'Maina Wanjigi Dynasty (Son of former long-serving KANU Cabinet Minister)',
-    notableStateTenders: [
-      'Standard Gauge Railway (SGR) initial procurement structuring',
-      'Integrated Security Surveillance Systems',
-      'JKIA Terminal 1Expansion consortia'
-    ],
-    influenceSummary: 'Legendary behind-the-scenes political architect and tender kingpin who bankrolled past presidential alliances; now vocal opposition figure and 2027 presidential contender.',
-    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80'
-  }
-];
+export const POWER_BROKERS: PowerBroker[] = ALL_POWER_BROKERS;
 
 export const BUDGET_ALLOCATIONS: BudgetAllocation[] = [
   {

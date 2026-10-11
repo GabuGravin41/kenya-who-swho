@@ -42,7 +42,9 @@ export type AppointmentType =
   | 'Presidential Direct Appointment'
   | 'Judicial Service Commission Appointment'
   | 'Public Service Commission Appointment'
-  | 'County Public Service Board Appointment';
+  | 'County Public Service Board Appointment'
+  | 'Presidential Appointment (NPSC Recommendation)'
+  | 'Competitive Search Panel / NA Approval';
 
 export interface County {
   id: string; // e.g., '001', '047'
