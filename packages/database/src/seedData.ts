@@ -18,6 +18,8 @@ import { ALL_POWER_BROKERS } from './financialPowerBrokersData.js';
 import { ALL_POLITICIAN_SCORECARDS } from './parliamentScorecardsData.js';
 import { ALL_ELITE_HANGOUTS } from './eliteHangoutsData.js';
 import { ALL_290_PARLIAMENTARY_MPS } from './allMembersOfParliamentData.js';
+import { ALL_DIVISION_BILLS, NOTABLE_ROLL_CALL_VOTES } from './rollCallVotesData.js';
+import { ALL_BATTLEGROUND_RACES } from './swingSeatMatrixData.js';
 
 export * from './constituenciesData.js';
 export * from './countyLeadershipData.js';
@@ -26,6 +28,9 @@ export * from './financialPowerBrokersData.js';
 export * from './parliamentScorecardsData.js';
 export * from './eliteHangoutsData.js';
 export * from './allMembersOfParliamentData.js';
+export * from './rollCallVotesData.js';
+export * from './swingSeatMatrixData.js';
+
 
 export const ALL_47_COUNTIES: County[] = [
   { id: '001', code: 1, name: 'Mombasa', formerProvince: 'Coast', capital: 'Mombasa City', population: 1208333, registeredVoters: 580282, annualEquitableShareKes: 8900000000, overviewSummary: 'Coastal economic and maritime hub; home to the Port of Mombasa.' },

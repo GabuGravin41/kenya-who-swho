@@ -8,25 +8,41 @@ import {
   Radio, 
   Wifi, 
   WifiOff,
-  Lock
+  Lock,
+  Flame,
+  Target
 } from 'lucide-react';
 
+export type NavigationTab = 
+  | 'politicians' 
+  | 'scorecard' 
+  | 'roll_call'
+  | 'battlegrounds'
+  | 'counties' 
+  | 'bureaucracy' 
+  | 'power_brokers' 
+  | 'elite_hangouts' 
+  | 'crowd_intel';
+
 interface NavbarProps {
-  activeTab: 'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'elite_hangouts' | 'crowd_intel';
-  setActiveTab: (tab: 'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'elite_hangouts' | 'crowd_intel') => void;
+  activeTab: NavigationTab;
+  setActiveTab: (tab: NavigationTab) => void;
   isOnline: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, isOnline }) => {
   const navItems = [
     { id: 'politicians', label: 'Politicians & Aspirants', icon: Vote },
-    { id: 'scorecard', label: 'Hansard & Delivery Scorecard', icon: ShieldAlert },
-    { id: 'counties', label: 'Counties & NG-CDF', icon: MapPin },
+    { id: 'scorecard', label: 'Hansard Scorecards', icon: ShieldAlert },
+    { id: 'roll_call', label: 'Roll-Call Votes', icon: Flame },
+    { id: 'battlegrounds', label: '2027 Battlegrounds', icon: Target },
+    { id: 'counties', label: 'Counties & CDF', icon: MapPin },
     { id: 'bureaucracy', label: 'State Bureaucracy', icon: Building2 },
     { id: 'power_brokers', label: 'Financial Moguls', icon: Briefcase },
-    { id: 'elite_hangouts', label: 'Power Hangouts & Access', icon: Lock },
-    { id: 'crowd_intel', label: 'Crowd Intelligence', icon: Radio },
+    { id: 'elite_hangouts', label: 'Power Hangouts', icon: Lock },
+    { id: 'crowd_intel', label: 'Crowd Intel', icon: Radio },
   ] as const;
+
 
   return (
     <header className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">

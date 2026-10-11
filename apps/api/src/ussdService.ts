@@ -21,6 +21,7 @@ export function handleUssdSession(payload: UssdPayload): string {
       "3. Ghost/Silent MPs (Oscar Sudi & others)",
       "4. Power Hangouts (Churches & Clubs)",
       "5. Report Ground Incident",
+      "6. 2027 Battleground Seat Matrix",
       "0. Exit"
     ].join('\n');
   }
@@ -62,9 +63,11 @@ export function handleUssdSession(payload: UssdPayload): string {
         "1. Hansard Speeches & Deliverables",
         "2. NG-CDF Allocation & Audit",
         "3. 2027 Election Race Objective",
+        "4. Finance Bill & Impeachment Votes",
         "0. Back to Main Menu"
       ].join('\n');
     }
+
 
     const subChoice = parts[2];
     const scorecard = inMemoryStore.getScorecardByPoliticianId(mp.id);
@@ -107,8 +110,27 @@ export function handleUssdSession(payload: UssdPayload): string {
       ].join('\n');
     }
 
+    if (subChoice === '4') {
+      const votes = inMemoryStore.getRollCallVotes({ politicianId: mp.id });
+      if (!votes || votes.length === 0) {
+        return [
+          `END [${mp.name} - Division Votes]`,
+          `Party: ${mp.partyId.toUpperCase()} (${mp.coalition})`,
+          "Finance Bill 2024: Voted with coalition",
+          "Gachagua Motion: Aligned with party position",
+          "Ref: National Assembly Hansard Records"
+        ].join('\n');
+      }
+      return [
+        `END [${mp.name} Roll-Call Votes]`,
+        ...votes.map(v => `${v.billShortCode.replace('FINANCE_BILL_', 'FB ')}: [${v.vote}] (${v.voterBacklashRating.replace(/_/g, ' ')})`),
+        "Ref: Kenya NA Hansard Division Register"
+      ].join('\n');
+    }
+
     return "END Invalid option selected. Please redial *384*254#.";
   }
+
 
   // ==========================================
   // CHOICE 2: COUNTY LEADERSHIP & EQUITABLE SHARE
@@ -337,9 +359,41 @@ export function handleUssdSession(payload: UssdPayload): string {
     ].join('\n');
   }
 
+  // ==========================================
+  // CHOICE 6: 2027 BATTLEGROUND SEAT MATRIX
+  // ==========================================
+  if (rootChoice === '6') {
+    const races = inMemoryStore.getBattlegroundRaces();
+    if (level === 1) {
+      return [
+        "CON 2027 Key Battleground Seats:",
+        ...races.slice(0, 6).map((r, i) => `${i + 1}. ${r.constituencyName} (${r.vulnerabilityTier.replace(/_/g, ' ')})`),
+        "0. Back"
+      ].join('\n');
+    }
+
+    const selectedIndex = parseInt(parts[1], 10) - 1;
+    const race = races[selectedIndex];
+    if (!race) {
+      return "END Invalid battleground selection. Please redial *384*254#.";
+    }
+
+    const challenger = race.topChallengers && race.topChallengers.length > 0 ? race.topChallengers[0] : null;
+    return [
+      `END [2027 Battleground: ${race.constituencyName}]`,
+      `County: ${race.countyName} | Voters: ${race.registeredVoters.toLocaleString()}`,
+      `Incumbent: Hon. ${race.incumbentName} (${race.incumbentCurrentParty})`,
+      `Status: ${race.incumbent2027Status}`,
+      `Vulnerability: ${race.vulnerabilityTier.replace(/_/g, ' ')}`,
+      challenger ? `Challenger: ${challenger.name} (${challenger.prospectiveParty}) [${challenger.estimatedGroundMomentum}]` : '',
+      `Key Issue: ${race.keyVoterIssues[0] || 'Grassroots delivery'}`
+    ].filter(Boolean).join('\n');
+  }
+
   if (rootChoice === '0') {
     return "END Thank you for using Kenya Who's Who (Intel 2027). Power to the people!";
   }
 
   return "END Invalid option. Please redial *384*254#.";
 }
+

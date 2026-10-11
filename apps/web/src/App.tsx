@@ -20,10 +20,14 @@ import { BureaucracyView } from './components/BureaucracyView';
 import { PowerBrokersView } from './components/PowerBrokersView';
 import { CrowdIntelligenceView } from './components/CrowdIntelligenceView';
 import { EliteHangoutsExplorer } from './components/EliteHangoutsExplorer';
+import { RollCallVotesExplorer } from './components/RollCallVotesExplorer';
+import { BattlegroundMatrixExplorer } from './components/BattlegroundMatrixExplorer';
+import { NavigationTab } from './components/Navbar';
 import { Search } from 'lucide-react';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'politicians' | 'scorecard' | 'counties' | 'bureaucracy' | 'power_brokers' | 'elite_hangouts' | 'crowd_intel'>('politicians');
+  const [activeTab, setActiveTab] = useState<NavigationTab>('politicians');
+
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   
   // Data State
@@ -222,10 +226,21 @@ export function App() {
           />
         )}
 
+        {/* Tab 2.5: Parliamentary Roll-Call Division Votes */}
+        {activeTab === 'roll_call' && (
+          <RollCallVotesExplorer />
+        )}
+
+        {/* Tab 2.6: 2027 Battlegrounds & Swing Seat Matrix */}
+        {activeTab === 'battlegrounds' && (
+          <BattlegroundMatrixExplorer />
+        )}
+
         {/* Tab 3: County & Constituency Explorer */}
         {activeTab === 'counties' && (
           <ConstituencyExplorer counties={counties} />
         )}
+
 
         {/* Tab 4: State Bureaucracy */}
         {activeTab === 'bureaucracy' && (

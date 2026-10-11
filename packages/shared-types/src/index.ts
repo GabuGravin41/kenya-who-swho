@@ -287,3 +287,89 @@ export interface EliteHangoutVenue {
   photoUrl: string;
 }
 
+// ----------------------------------------------------
+// ROLL-CALL PARLIAMENTARY DIVISION VOTES
+// ----------------------------------------------------
+export type DivisionVotePosition = 'YES' | 'NO' | 'ABSTAIN' | 'ABSENT';
+
+export type DivisionBillCode = 
+  | 'FINANCE_BILL_2023' 
+  | 'FINANCE_BILL_2024' 
+  | 'GACHAGUA_IMPEACHMENT' 
+  | 'HOUSING_LEVY_2024' 
+  | 'SHIF_HEALTH_2023';
+
+export interface DivisionBill {
+  id: string;
+  shortCode: DivisionBillCode;
+  title: string;
+  officialActReference: string;
+  dateVoted: string;
+  chamber: 'National Assembly' | 'Senate';
+  outcome: 'Passed' | 'Rejected' | 'Withdrawn / Conceded by Executive';
+  summary: string;
+  publicImpactNote: string;
+  totalYes: number;
+  totalNo: number;
+  totalAbstain: number;
+  totalAbsent: number;
+}
+
+export interface PoliticianRollCallRecord {
+  id: string;
+  politicianId: string;
+  politicianName: string;
+  constituencyOrCounty: string;
+  party: string;
+  billShortCode: DivisionBillCode;
+  billTitle: string;
+  vote: DivisionVotePosition;
+  voterBacklashRating: 'CRITICAL_BACKLASH' | 'STRONG_DISAPPROVAL' | 'COMMENDED_BY_PUBLIC' | 'NEUTRAL_OR_ABSENT';
+  groundConsequenceSummary: string;
+  hansardCitation: string;
+}
+
+// ----------------------------------------------------
+// 2027 ELECTION CHALLENGERS & SWING SEAT MATRIX
+// ----------------------------------------------------
+export type SeatVulnerabilityTier = 
+  | 'HOT_BATTLEGROUND_TOSSUP' 
+  | 'LEAN_INCUMBENT' 
+  | 'LEAN_OPPOSITION' 
+  | 'SAFE_INCUMBENT' 
+  | 'HIGH_RISK_OPEN_SEAT';
+
+export interface DeclaredChallenger {
+  id: string;
+  name: string;
+  aliases?: string[];
+  constituencyId: string;
+  prospectiveParty: string;
+  coalitionAlignment: string;
+  backgroundProfession: string;
+  campaignWarChestEstKes: number;
+  estimatedGroundMomentum: 'Surging' | 'Competitive' | 'Underdog' | 'Dark Horse';
+  keyPlatformPromises: string[];
+  notableEndorsements: string[];
+  photoUrl: string;
+}
+
+export interface ConstituencyRaceOverview {
+  id: string;
+  constituencyId: string;
+  constituencyName: string;
+  countyName: string;
+  registeredVoters: number;
+  marginOfVictory2022Votes: number;
+  vulnerabilityTier: SeatVulnerabilityTier;
+  incumbentId: string;
+  incumbentName: string;
+  incumbentCurrentParty: string;
+  incumbent2027Status: 'Defending Seat' | 'Vying for Governor' | 'Vying for Senator' | 'Facing Heavy Ground Resistance' | 'Retiring';
+  genZBulgePercentage: number;
+  topChallengers: DeclaredChallenger[];
+  keyVoterIssues: string[];
+  battlegroundAnalysis: string;
+}
+
+

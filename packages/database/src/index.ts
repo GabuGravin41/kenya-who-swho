@@ -14,7 +14,10 @@ import {
   CROWD_INTELLIGENCE_LOGS,
   ALL_47_COUNTY_LEADERSHIP,
   CountyLeadershipRecord,
-  ALL_ELITE_HANGOUTS
+  ALL_ELITE_HANGOUTS,
+  ALL_DIVISION_BILLS,
+  NOTABLE_ROLL_CALL_VOTES,
+  ALL_BATTLEGROUND_RACES
 } from './seedData.js';
 import {
   County,
@@ -28,7 +31,10 @@ import {
   PowerBroker,
   CrowdIntelligenceLog,
   CivicStatsSummary,
-  EliteHangoutVenue
+  EliteHangoutVenue,
+  DivisionBill,
+  PoliticianRollCallRecord,
+  ConstituencyRaceOverview
 } from '@kenya-elections/shared-types';
 
 export * from './schema.js';
@@ -57,8 +63,37 @@ class InMemoryStore {
   private crowdLogs: CrowdIntelligenceLog[] = [...CROWD_INTELLIGENCE_LOGS];
   private countyLeadership: CountyLeadershipRecord[] = [...ALL_47_COUNTY_LEADERSHIP];
   private hangouts: EliteHangoutVenue[] = [...ALL_ELITE_HANGOUTS];
+  private divisionBills: DivisionBill[] = [...ALL_DIVISION_BILLS];
+  private rollCallVotes: PoliticianRollCallRecord[] = [...NOTABLE_ROLL_CALL_VOTES];
+  private battlegroundRaces: ConstituencyRaceOverview[] = [...ALL_BATTLEGROUND_RACES];
+
+  getDivisionBills() { return this.divisionBills; }
+  getDivisionBillByCode(shortCode: string) {
+    return this.divisionBills.find(b => b.shortCode.toLowerCase() === shortCode.toLowerCase() || b.id === shortCode);
+  }
+
+  getRollCallVotes(filters?: { billShortCode?: string; politicianId?: string; vote?: string }) {
+    let list = this.rollCallVotes;
+    if (!filters) return list;
+    if (filters.billShortCode) list = list.filter(r => r.billShortCode.toLowerCase() === filters.billShortCode!.toLowerCase());
+    if (filters.politicianId) list = list.filter(r => r.politicianId === filters.politicianId);
+    if (filters.vote) list = list.filter(r => r.vote.toLowerCase() === filters.vote!.toLowerCase());
+    return list;
+  }
+
+  getBattlegroundRaces(tier?: string) {
+    if (tier && tier !== 'ALL') {
+      return this.battlegroundRaces.filter(r => r.vulnerabilityTier.toLowerCase() === tier.toLowerCase());
+    }
+    return this.battlegroundRaces;
+  }
+
+  getBattlegroundRaceById(idOrConstituencyId: string) {
+    return this.battlegroundRaces.find(r => r.id === idOrConstituencyId || r.constituencyId === idOrConstituencyId || r.constituencyName.toLowerCase() === idOrConstituencyId.toLowerCase());
+  }
 
   getCounties() { return this.counties; }
+
   getCountyById(id: string) { return this.counties.find(c => c.id === id || c.name.toLowerCase() === id.toLowerCase()); }
 
   getCountyLeadership(countyId?: string) {

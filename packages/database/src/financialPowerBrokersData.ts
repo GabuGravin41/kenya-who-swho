@@ -49,27 +49,27 @@ export const ALL_POWER_BROKERS: PowerBroker[] = [
     photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400'
   },
   {
-    id: 'pb-moi-family',
-    name: 'The Moi Family & Conglomerates',
-    aliasOrTitle: 'The Kabarnet Dynasty',
-    originRegion: 'Rift Valley (Baringo, Nakuru, Uasin Gishu)',
-    estimatedNetWorthKes: 180000000000,
-    primarySectors: ['Media & Broadcasting', 'Education & Healthcare', 'Logistics & Aviation', 'Agribusiness'],
+    id: 'pb-jaswant-rai',
+    name: 'Jaswant Singh Rai & The Rai Family',
+    aliasOrTitle: 'The Sugar Baron & Timber Titan',
+    originRegion: 'Western Kenya (Kakamega) / Rift Valley',
+    estimatedNetWorthKes: 110000000000,
+    primarySectors: ['Agro-Processing & Sugar', 'Wood & Timber Products', 'Cement Manufacturing', 'Edible Oils'],
     flagshipCompanies: [
-      'The Standard Group PLC (Standard Newspaper, KTN Home, KTN News, Radio Maisha)',
-      'Kabarak University & Kabarak High School educational empires',
-      'Siginon Global Logistics (Air cargo handling at JKIA and Mombasa Port transport)',
-      'Sasine Tea & Coffee Estates',
-      'Transnational Bank (Historical holding, merged into Access Bank)'
+      'West Kenya Sugar Company (Kabras Sugar - dominant producer supplying >40% of national market)',
+      'Sukari Industries & Olepito Sugar',
+      'Timsales (Kenya\'s largest timber processing and plywood entity)',
+      'Rai Cement Company (Chilakol, Kisumu)',
+      'Menengai Oil Refineries (Top Fry edible oil, Menengai bar soaps)'
     ],
-    associatedPoliticalFactions: ['KANU Party', 'Azimio la Umoja'],
-    familyDynasty: 'Moi Family Dynasty (Heirs of 2nd President Daniel Arap Moi)',
+    associatedPoliticalFactions: ['Western Kenya Political Kingmakers', 'Cross-Regime Lobbying'],
+    familyDynasty: 'Tarlochan Singh Rai Dynasty',
     notableStateTenders: [
-      'Government educational curriculum publication & media placement tenders',
-      'Inland Container Depot (ICD) freight logistics and container handling contracts'
+      'Strategic national duty-free sugar import quotas',
+      'Kenya Forest Service commercial timber felling concessions'
     ],
-    influenceSummary: 'Retains strategic media control, hundreds of thousands of agricultural acres in Nakuru and Baringo, and regional aviation logistics networks.',
-    photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400'
+    influenceSummary: 'Dominates Western Kenya agro-industrial economy. His dramatic 2023 Kilimani abduction and subsequent "mambo ni matatu" presidential declaration demonstrated how private industrial battles intersect with state power.',
+    photoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400'
   },
   {
     id: 'pb-narendra-raval',
@@ -91,6 +91,119 @@ export const ALL_POWER_BROKERS: PowerBroker[] = [
     ],
     influenceSummary: 'Industrialist billionaire providing building materials across all major government public works; widely consulted by the Executive on industrial and tax policy.',
     photoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400'
+  },
+  {
+    id: 'pb-humphrey-kariuki',
+    name: 'Humphrey Kariuki Ndegwa',
+    aliasOrTitle: 'The Energy & Spirits Tycoon',
+    originRegion: 'Mount Kenya (Nyeri) / Nairobi',
+    estimatedNetWorthKes: 65000000000,
+    primarySectors: ['Fuel & Petroleum Distribution', 'Alcoholic Beverage Distillation', 'Power Generation', 'Luxury Hospitality'],
+    flagshipCompanies: [
+      'Dalbit Petroleum (Supplies jet fuel and bulk diesel across East & Central Africa)',
+      'Janus Continental Group (Holding conglomerate)',
+      'Africa Spirits Limited (Producer of Legend Brandy, Blue Ice)',
+      'Great Lakes Africa Energy (GLAE - 250MW gas & solar concessions in Mozambique/Zambia)',
+      'The Hub Karen (Flagship prime retail shopping mall)'
+    ],
+    associatedPoliticalFactions: ['National Investment Council Member', 'Cross-party diplomatic facilitator'],
+    familyDynasty: 'Self-Made Industrialist',
+    notableStateTenders: [
+      'United Nations and WFP regional aviation fuel supply contracts',
+      'State power purchase agreements (PPAs)'
+    ],
+    influenceSummary: 'Survived KRA multi-billion tax prosecutions under the Uhuru administration to emerge as a key presidential advisor on foreign direct investment under Ruto.',
+    photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'
+  },
+  {
+    id: 'pb-david-langat',
+    name: 'David Langat (DL)',
+    aliasOrTitle: 'The Rift Valley Merchant & SEZ Pioneer',
+    originRegion: 'Rift Valley (Kericho / Bomet) & Coast (Mombasa)',
+    estimatedNetWorthKes: 48000000000,
+    primarySectors: ['Commercial Tea Farming & Export', 'Special Economic Zones (SEZs)', 'Mombasa Real Estate', 'Logistics'],
+    flagshipCompanies: [
+      'DL Group of Companies',
+      'Africa Economic Zones (AEZ - 700-acre private industrial park in Eldoret)',
+      'Koisagat Tea Estate & Chebango Tea Factory',
+      'Nyali Centre (Premier shopping and commercial hub in Mombasa)',
+      'Selengkei Solar Farm (Kajiado)'
+    ],
+    associatedPoliticalFactions: ['Founding financial pillar of UDA / Rift Valley campaign logistics'],
+    familyDynasty: 'DL Dynasty',
+    notableStateTenders: [
+      'Special Economic Zone gazettement tax incentives',
+      'Bulk tea export allocations to Egypt and Pakistan'
+    ],
+    influenceSummary: 'Key Rift Valley billionaire who bankrolled early political vehicles; pioneered private industrial park development in Eldoret.',
+    photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400'
+  },
+  {
+    id: 'pb-mohammed-jaffer',
+    name: 'Mohammed Jaffer',
+    aliasOrTitle: 'The Mombasa Port Concessionaire',
+    originRegion: 'Coast (Mombasa)',
+    estimatedNetWorthKes: 52000000000,
+    primarySectors: ['Bulk Grain Handling', 'LPG Gas Terminals & Energy', 'Port Logistics', 'Real Estate'],
+    flagshipCompanies: [
+      'Grain Bulk Handlers Limited (GBHL - Exclusive mechanized grain offloader at Mombasa Port)',
+      'Africa Gas and Oil Limited (AGOL - Largest bulk LPG storage terminal in East Africa)',
+      'MJ Group Port Terminals',
+      'One Petroleum Limited'
+    ],
+    associatedPoliticalFactions: ['Coast Regional Powerbroker', 'Bipartisan Port Patronage'],
+    familyDynasty: 'Jaffer Dynasty',
+    notableStateTenders: [
+      'Long-term exclusive grain handling concession agreements with Kenya Ports Authority (KPA)',
+      'National LPG gas import pipeline offloading rights'
+    ],
+    influenceSummary: 'Controls the logistical choke point of all grain and cooking gas entering Kenya and the Great Lakes region through the Port of Mombasa.',
+    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400'
+  },
+  {
+    id: 'pb-munga-mwangi',
+    name: 'Peter Munga & Dr. James Mwangi',
+    aliasOrTitle: 'The Equity & Mount Kenya Foundation Pillars',
+    originRegion: 'Central Kenya (Murang\'a)',
+    estimatedNetWorthKes: 75000000000,
+    primarySectors: ['Commercial Banking & Microfinance', 'Insurance & Health Tech', 'Agriculture Processing', 'Telecom (Equitel)'],
+    flagshipCompanies: [
+      'Equity Group Holdings (Largest financial institution in East & Central Africa)',
+      'Britam Holdings equity interests',
+      'Pioneer Group of Schools & Educational Foundations',
+      'Freshco Seeds and Agro-dealers network'
+    ],
+    associatedPoliticalFactions: ['Mount Kenya Foundation (MKF)', 'Architects of 2002 NARC and 2013/2017 presidential endorsements'],
+    familyDynasty: 'Murang\'a Capitalist Network',
+    notableStateTenders: [
+      'National cash transfer programs (Inua Jamii social safety net disbursement)',
+      'Government agricultural subsidy e-voucher schemes'
+    ],
+    influenceSummary: 'Spearheaded the democratization of banking in Kenya while operating the boardroom core of the Mount Kenya Foundation, the political-business caucus that vetoes regional candidacies.',
+    photoUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400'
+  },
+  {
+    id: 'pb-moi-family',
+    name: 'The Moi Family & Conglomerates',
+    aliasOrTitle: 'The Kabarnet Dynasty',
+    originRegion: 'Rift Valley (Baringo, Nakuru, Uasin Gishu)',
+    estimatedNetWorthKes: 180000000000,
+    primarySectors: ['Media & Broadcasting', 'Education & Healthcare', 'Logistics & Aviation', 'Agribusiness'],
+    flagshipCompanies: [
+      'The Standard Group PLC (Standard Newspaper, KTN Home, KTN News, Radio Maisha)',
+      'Kabarak University & Kabarak High School educational empires',
+      'Siginon Global Logistics (Air cargo handling at JKIA and Mombasa Port transport)',
+      'Sasine Tea & Coffee Estates',
+      'Transnational Bank (Historical holding, merged into Access Bank)'
+    ],
+    associatedPoliticalFactions: ['KANU Party', 'Azimio la Umoja'],
+    familyDynasty: 'Moi Family Dynasty (Heirs of 2nd President Daniel Arap Moi)',
+    notableStateTenders: [
+      'Government educational curriculum publication & media placement tenders',
+      'Inland Container Depot (ICD) freight logistics and container handling contracts'
+    ],
+    influenceSummary: 'Retains strategic media control, hundreds of thousands of agricultural acres in Nakuru and Baringo, and regional aviation logistics networks.',
+    photoUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400'
   },
   {
     id: 'pb-vimal-shah',

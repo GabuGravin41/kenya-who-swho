@@ -9,7 +9,11 @@ import {
   BudgetAllocation,
   PowerBroker,
   CrowdIntelligenceLog,
-  CivicStatsSummary
+  CivicStatsSummary,
+  EliteHangoutVenue,
+  DivisionBill,
+  PoliticianRollCallRecord,
+  ConstituencyRaceOverview
 } from '@kenya-elections/shared-types';
 
 import {
@@ -25,11 +29,14 @@ import {
   CROWD_INTELLIGENCE_LOGS,
   ALL_47_COUNTY_LEADERSHIP,
   CountyLeadershipRecord,
-  ALL_ELITE_HANGOUTS
+  ALL_ELITE_HANGOUTS,
+  ALL_DIVISION_BILLS,
+  NOTABLE_ROLL_CALL_VOTES,
+  ALL_BATTLEGROUND_RACES
 } from '@kenya-elections/database';
-import { EliteHangoutVenue } from '@kenya-elections/shared-types';
 
 const API_BASE = '/api';
+
 
 async function fetchWithFallback<T>(url: string, fallbackData: T): Promise<T> {
   try {
@@ -184,5 +191,38 @@ export const api = {
     } catch {
       return { success: true, localVoted: true };
     }
+  },
+
+  getDivisionBills: async (): Promise<DivisionBill[]> => {
+    return fetchWithFallback<DivisionBill[]>(`${API_BASE}/roll-call/bills`, ALL_DIVISION_BILLS);
+  },
+
+  getRollCallVotes: async (filters?: { billShortCode?: string; politicianId?: string; vote?: string }): Promise<PoliticianRollCallRecord[]> => {
+    const params = new URLSearchParams();
+    if (filters?.billShortCode) params.append('billShortCode', filters.billShortCode);
+    if (filters?.politicianId) params.append('politicianId', filters.politicianId);
+    if (filters?.vote) params.append('vote', filters.vote);
+    const qs = params.toString() ? `?${params.toString()}` : '';
+
+    let fallback = NOTABLE_ROLL_CALL_VOTES;
+    if (filters?.billShortCode) fallback = fallback.filter(r => r.billShortCode.toLowerCase() === filters.billShortCode!.toLowerCase());
+    if (filters?.politicianId) fallback = fallback.filter(r => r.politicianId === filters.politicianId);
+    if (filters?.vote) fallback = fallback.filter(r => r.vote.toLowerCase() === filters.vote!.toLowerCase());
+
+    return fetchWithFallback<PoliticianRollCallRecord[]>(`${API_BASE}/roll-call/votes${qs}`, fallback);
+  },
+
+  getBattlegroundRaces: async (tier?: string): Promise<ConstituencyRaceOverview[]> => {
+    const qs = tier && tier !== 'ALL' ? `?tier=${encodeURIComponent(tier)}` : '';
+    const fallback = tier && tier !== 'ALL'
+      ? ALL_BATTLEGROUND_RACES.filter(r => r.vulnerabilityTier.toLowerCase() === tier.toLowerCase())
+      : ALL_BATTLEGROUND_RACES;
+    return fetchWithFallback<ConstituencyRaceOverview[]>(`${API_BASE}/battlegrounds${qs}`, fallback);
+  },
+
+  getBattlegroundRaceById: async (id: string): Promise<ConstituencyRaceOverview | null> => {
+    const fallback = ALL_BATTLEGROUND_RACES.find(r => r.id === id || r.constituencyId === id) || null;
+    return fetchWithFallback<ConstituencyRaceOverview | null>(`${API_BASE}/battlegrounds/${encodeURIComponent(id)}`, fallback);
   }
 };
+

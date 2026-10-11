@@ -153,6 +153,40 @@ app.get('/api/elite-hangouts/:id', (req, res) => {
   res.json(h);
 });
 
+// 8.6 Roll-Call Parliamentary Division Votes (Finance Bills, Impeachment, Housing)
+app.get('/api/roll-call/bills', (req, res) => {
+  res.json(inMemoryStore.getDivisionBills());
+});
+
+app.get('/api/roll-call/bills/:code', (req, res) => {
+  const bill = inMemoryStore.getDivisionBillByCode(req.params.code);
+  if (!bill) return res.status(404).json({ error: 'Division bill not found' });
+  const votes = inMemoryStore.getRollCallVotes({ billShortCode: bill.shortCode });
+  res.json({ bill, votes });
+});
+
+app.get('/api/roll-call/votes', (req, res) => {
+  const { billShortCode, politicianId, vote } = req.query;
+  res.json(inMemoryStore.getRollCallVotes({
+    billShortCode: billShortCode as string | undefined,
+    politicianId: politicianId as string | undefined,
+    vote: vote as string | undefined,
+  }));
+});
+
+// 8.7 2027 Battleground Seat Matrix & Declared Challengers
+app.get('/api/battlegrounds', (req, res) => {
+  const { tier } = req.query;
+  res.json(inMemoryStore.getBattlegroundRaces(tier as string | undefined));
+});
+
+app.get('/api/battlegrounds/:id', (req, res) => {
+  const race = inMemoryStore.getBattlegroundRaceById(req.params.id);
+  if (!race) return res.status(404).json({ error: 'Battleground race not found' });
+  res.json(race);
+});
+
+
 // 9. Budgets
 app.get('/api/budgets', (req, res) => {
   const { entityId } = req.query;
