@@ -3,11 +3,13 @@
   "services": {
     "api": {
       "root": "apps/api",
-      "framework": "express"
+      "framework": "express",
+      "buildCommand": "pnpm --filter @kenya-elections/shared-types build && pnpm --filter @kenya-elections/database build && tsc"
     },
     "web": {
       "root": "apps/web",
-      "framework": "vite"
+      "framework": "vite",
+      "buildCommand": "pnpm --filter @kenya-elections/shared-types build && pnpm --filter @kenya-elections/database build && tsc && vite build"
     }
   },
   "rewrites": [

@@ -1,4 +1,11 @@
 import { inMemoryStore } from '@kenya-elections/database';
+import { 
+  Constituency, 
+  Politician, 
+  County, 
+  PoliticianRollCallRecord, 
+  ConstituencyRaceOverview 
+} from '@kenya-elections/shared-types';
 
 export interface UssdPayload {
   sessionId: string;
@@ -38,7 +45,7 @@ export function handleUssdSession(payload: UssdPayload): string {
 
     const constituencyQuery = parts[1].toLowerCase().trim();
     const allConstituencies = inMemoryStore.getConstituencies();
-    const matchedConstituency = allConstituencies.find(c => 
+    const matchedConstituency = allConstituencies.find((c: Constituency) => 
       c.name.toLowerCase().includes(constituencyQuery) || 
       c.id.toLowerCase() === constituencyQuery ||
       c.code.toLowerCase() === constituencyQuery
@@ -49,7 +56,8 @@ export function handleUssdSession(payload: UssdPayload): string {
     }
 
     const allPoliticians = inMemoryStore.getPoliticians();
-    const mp = allPoliticians.find(p => p.representedConstituencyId === matchedConstituency.id && p.currentPosition === 'mp');
+    const mp = allPoliticians.find((p: Politician) => p.representedConstituencyId === matchedConstituency.id && p.currentPosition === 'mp');
+
 
     if (!mp) {
       return `END Constituency ${matchedConstituency.name} found, but parliamentary dossier is currently synchronizing. Redial shortly.`;
@@ -106,7 +114,7 @@ export function handleUssdSession(payload: UssdPayload): string {
         `Slogan: "${mp.campaignSlogan || 'Constituency Development'}"`,
         `Allies: ${mp.keyAllies.slice(0, 2).join(', ')}`,
         `Rivals: ${mp.knownRivals.slice(0, 2).join(', ')}`,
-        `Party Hopping: ${mp.partyHoppingHistory.map(h => h.party).join(' -> ')}`
+        `Party Hopping: ${mp.partyHoppingHistory.map((h: { party: string }) => h.party).join(' -> ')}`
       ].join('\n');
     }
 
@@ -123,7 +131,7 @@ export function handleUssdSession(payload: UssdPayload): string {
       }
       return [
         `END [${mp.name} Roll-Call Votes]`,
-        ...votes.map(v => `${v.billShortCode.replace('FINANCE_BILL_', 'FB ')}: [${v.vote}] (${v.voterBacklashRating.replace(/_/g, ' ')})`),
+        ...votes.map((v: PoliticianRollCallRecord) => `${v.billShortCode.replace('FINANCE_BILL_', 'FB ')}: [${v.vote}] (${v.voterBacklashRating.replace(/_/g, ' ')})`),
         "Ref: Kenya NA Hansard Division Register"
       ].join('\n');
     }
@@ -142,12 +150,13 @@ export function handleUssdSession(payload: UssdPayload): string {
 
     const query = parts[1].toLowerCase().trim();
     const allCounties = inMemoryStore.getCounties();
-    const county = allCounties.find(c => 
+    const county = allCounties.find((c: County) => 
       c.name.toLowerCase().includes(query) || 
       c.id === query || 
       String(c.code) === query ||
       c.capital.toLowerCase().includes(query)
     );
+
 
     if (!county) {
       return "END County not found. Enter a valid county name or code 1-47 (e.g. 47 for Nairobi, 27 for Uasin Gishu).";
@@ -367,9 +376,10 @@ export function handleUssdSession(payload: UssdPayload): string {
     if (level === 1) {
       return [
         "CON 2027 Key Battleground Seats:",
-        ...races.slice(0, 6).map((r, i) => `${i + 1}. ${r.constituencyName} (${r.vulnerabilityTier.replace(/_/g, ' ')})`),
+        ...races.slice(0, 6).map((r: ConstituencyRaceOverview, i: number) => `${i + 1}. ${r.constituencyName} (${r.vulnerabilityTier.replace(/_/g, ' ')})`),
         "0. Back"
       ].join('\n');
+
     }
 
     const selectedIndex = parseInt(parts[1], 10) - 1;

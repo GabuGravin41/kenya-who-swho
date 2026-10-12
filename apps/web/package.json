@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "pnpm --filter @kenya-elections/shared-types build && pnpm --filter @kenya-elections/database build && tsc && vite build",
     "preview": "vite preview"
+
   },
   "dependencies": {
     "@kenya-elections/database": "workspace:*",

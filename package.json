@@ -8,10 +8,12 @@
     "dev:web": "pnpm --filter @kenya-elections/web dev",
     "dev:api": "pnpm --filter @kenya-elections/api dev",
     "build": "pnpm --recursive run build",
+    "postinstall": "pnpm --filter @kenya-elections/shared-types build && pnpm --filter @kenya-elections/database build",
     "lint": "pnpm --recursive run lint",
     "typecheck": "pnpm --recursive run typecheck",
     "clean": "pnpm --recursive run clean"
   },
+
   "devDependencies": {
     "typescript": "^5.8.2"
   }

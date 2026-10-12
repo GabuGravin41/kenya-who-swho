@@ -2,7 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { inMemoryStore } from '@kenya-elections/database';
+import { Politician, EliteHangoutVenue } from '@kenya-elections/shared-types';
 import { handleUssdSession } from './ussdService.js';
+
 
 dotenv.config();
 
@@ -106,7 +108,7 @@ app.get('/api/politicians', (req, res) => {
   });
 
   // Attach quick scorecards
-  const withScores = list.map(p => {
+  const withScores = list.map((p: Politician) => {
     const scorecard = inMemoryStore.getScorecardByPoliticianId(p.id);
     const party = inMemoryStore.getPartyById(p.partyId);
     return {
@@ -117,9 +119,10 @@ app.get('/api/politicians', (req, res) => {
   });
 
   if (activityTier) {
-    const filtered = withScores.filter(p => p.scorecard?.activityTier.toLowerCase() === (activityTier as string).toLowerCase());
+    const filtered = withScores.filter((p: any) => p.scorecard?.activityTier.toLowerCase() === (activityTier as string).toLowerCase());
     return res.json(filtered);
   }
+
 
   res.json(withScores);
 });
@@ -340,8 +343,8 @@ app.get('/api/v1/campaign-packs/:politicianId', (req, res) => {
   const party = inMemoryStore.getPartyById(politician.partyId);
   const budgets = politician.representedConstituencyId ? inMemoryStore.getBudgets(politician.representedConstituencyId) : [];
   const crowdLogs = inMemoryStore.getCrowdLogs({ politicianId: politician.id });
-  const hangouts = inMemoryStore.getEliteHangouts().filter(h => 
-    h.frequentPatrons.some(p => p.politicianId === politician.id || p.name.toLowerCase().includes(politician.name.toLowerCase()))
+  const hangouts = inMemoryStore.getEliteHangouts().filter((h: EliteHangoutVenue) => 
+    h.frequentPatrons.some((p: { politicianId?: string; name: string }) => p.politicianId === politician.id || p.name.toLowerCase().includes(politician.name.toLowerCase()))
   );
 
   const pack = {
@@ -374,7 +377,7 @@ app.get('/api/v1/campaign-packs/:politicianId', (req, res) => {
       reportedScandals: scorecard?.reportedScandals ?? []
     },
     constituencyFinancialOversight: budgets,
-    eliteAccessNetworks: hangouts.map(h => ({
+    eliteAccessNetworks: hangouts.map((h: EliteHangoutVenue) => ({
       venueName: h.name,
       category: h.category,
       neighborhood: h.neighborhood,
@@ -389,10 +392,11 @@ app.get('/api/v1/campaign-packs/:politicianId', (req, res) => {
           ? `Capitalize on zero Hansard floor contributions in the 13th Parliament against candidate.`
           : `Audit committee oversight attendance and public finance voting records.`,
         `Focus campaign messaging on stalled NG-CDF school and clinic projects in ward borders.`,
-        `Scrutinize party hopping history (${politician.partyHoppingHistory.map(h => h.party).join(' -> ')}) for consistency.`
+        `Scrutinize party hopping history (${politician.partyHoppingHistory.map((h: { party: string }) => h.party).join(' -> ')}) for consistency.`
       ]
     }
   };
+
 
   res.json(pack);
 });
